@@ -8,7 +8,7 @@ Install the required Python packages (including PyTorch with CUDA 11.8 support):
 
 Note: Ensure your system's CUDA version is consistent with the PyTorch version installed.
 
-🚀 Quick Start (快速运行)
+🚀 Quick Start 
 We provide an all-in-one script run.sh to launch the entire system automatically.
 
 1. Grant Permissions
