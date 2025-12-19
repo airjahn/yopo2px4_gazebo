@@ -38,6 +38,7 @@ test4.py: Custom testing/planning module.
 requirements.txt: List of project dependencies.
 
 config/: Configuration files for trajectory optimization.
+![results showing](./motionplanning.gif)
 
 🧩 Acknowledgements 
 This project is built upon the excellent work of TJU-Aerial-Robotics. We strictly adhere to the open-source spirit and acknowledge their contribution.
