@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Setting GAZEBO environment variables -->
+    <env name="GAZEBO_MODEL_PATH" value="$(env GAZEBO_MODEL_PATH)" />
+    <env name="GAZEBO_RESOURCE_PATH" value="$(env GAZEBO_RESOURCE_PATH)" />
+
+    <!-- MAVROS posix SITL 环境启动脚本 -->
+    <!-- 启动MAVROS、PX4 SITL、Gazebo环境并生成飞行器模型 -->
+
+    <!-- 飞行器位姿参数 -->
+    <!-- x: X轴位置，默认为0 -->
+    <arg name="x" default="0"/>
+    <!-- y: Y轴位置，默认为0 -->
+    <arg name="y" default="0"/>
+    <!-- z: Z轴位置，默认为0 -->
+    <arg name="z" default="0"/>
+    <!-- R: Roll翻滚角，默认为0 -->
+    <arg name="R" default="0"/>
+    <!-- P: Pitch俯仰角，默认为0 -->
+    <arg name="P" default="0"/>
+    <!-- Y: Yaw偏航角，默认为0 -->
+    <arg name="Y" default="0"/>
+
+    <!-- 飞行器模型和世界环境 -->
+    <!-- est: 估算器类型，默认使用ekf2 -->
+    <arg name="est" default="ekf2"/>
+    <!-- vehicle: 飞行器模型，默认使用iris -->
+    <arg name="vehicle" default="iris_depth_camera"/>
+    <!-- world: Gazebo世界文件路径 -->
+    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/empty.world"/>
+    <!-- sdf: SDF模型文件路径 -->
+    <arg name="sdf" default="$(find mavlink_sitl_gazebo)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+
+    <!-- Gazebo配置参数 -->
+    <!-- gui: 是否显示GUI界面，默认显示 -->
+    <arg name="gui" default="true"/>
+    <!-- debug: 是否启用调试模式，默认不启用 -->
+    <arg name="debug" default="false"/>
+    <!-- verbose: 是否输出详细信息，默认不输出 -->
+    <arg name="verbose" default="false"/>
+    <!-- paused: 是否暂停Gazebo仿真，默认不暂停 -->
+    <arg name="paused" default="false"/>
+    <!-- respawn_gazebo: Gazebo异常退出时是否重启，默认不重启 -->
+    <arg name="respawn_gazebo" default="false"/>
+
+    <!-- MAVROS配置参数 -->
+    <!-- fcu_url: 飞控通信地址，默认使用UDP协议 -->
+    <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
+    <!-- respawn_mavros: MAVROS异常退出时是否重启，默认不重启 -->
+    <arg name="respawn_mavros" default="false"/>
+
+    <!-- PX4配置参数 -->
+    <!-- interactive: 是否交互模式，默认为true -->
+    <arg name="interactive" default="true"/>
+
+    <!-- 启动PX4 SITL和Gazebo -->
+    <include file="$(find px4)/launch/posix_sitl.launch">
+        <arg name="x" value="$(arg x)"/>
+        <arg name="y" value="$(arg y)"/>
+        <arg name="z" value="$(arg z)"/>
+        <arg name="R" value="$(arg R)"/>
+        <arg name="P" value="$(arg P)"/>
+        <arg name="Y" value="$(arg Y)"/>
+        <arg name="world" value="$(arg world)"/>
+        <arg name="vehicle" value="$(arg vehicle)"/>
+        <arg name="sdf" value="$(arg sdf)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="interactive" value="$(arg interactive)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="respawn_gazebo" value="$(arg respawn_gazebo)"/>
+    </include>
+
+    <!-- 启动MAVROS -->
+    <include file="$(find mavros)/launch/px4.launch">
+        <!-- GCS地面站链接由SITL提供 -->
+        <arg name="gcs_url" value=""/>
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
+    </include>
+</launch>
