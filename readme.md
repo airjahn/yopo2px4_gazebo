@@ -43,5 +43,6 @@ config/: Configuration files for trajectory optimization.
 This project is built upon the excellent work of TJU-Aerial-Robotics. We strictly adhere to the open-source spirit and acknowledge their contribution.
 
 Original Repository:https://github.com/TJU-Aerial-Robotics/YOPO
+
 📄 License
 This project follows the license of the original YOPO repository.
